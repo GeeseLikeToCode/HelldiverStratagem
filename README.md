@@ -19,7 +19,9 @@ The program starts out in a 800x600 resolution window, if you want to full scree
 The requirements for this program are:
 pillow, pynput, cairosvg. 
 The pip command to install all of the imports is:
+
 pip install pillow pynput cairosvg
+
 You will need to install [python](https://www.python.org/downloads/). If you need more assitance this [video](https://www.python.org/downloads/) provides a step by step guide on how to. 
 
 If you get an error "no library called "cairo" | "libcairo-2" | 'libcairo.2.dylib | 2.dll' | Cairo SVG" [then you will need to install the GTK for windows runtime](https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases)
