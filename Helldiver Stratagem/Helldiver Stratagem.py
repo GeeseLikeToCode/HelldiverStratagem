@@ -6,7 +6,6 @@ from pynput.keyboard import Controller, Key
 from io import BytesIO
 import os
 import tkinter.font as tkFont
-import sys
 
 
 '''
@@ -121,7 +120,7 @@ StratagemsDict = {
 
 # Mission Stratagems - Tested and working
 
-"Reinforce"                            :     ["Up", "Down", "Right", "Left", "Up"], 
+"Reinforcements"                       :     ["Up", "Down", "Right", "Left", "Up"], 
 "SOS Beacon"                           :     ["Up", "Down", "Right", "Up"], 
 "Resupply"                             :     ["Down", "Down", "Up", "Right"], 
 "NUX-223 Hellbomb"                     :     ["Down", "Up", "Left", "Down", "Up", "Right", "Down", "Up"], 
@@ -157,12 +156,8 @@ def main():
         canvas.delete("Text")
         svgToImgArr.clear()
         #To see what these paramaters mean, scroll down to the bottom.
-        ArrowCreation("Up_Arrow",    0.4,   0.5,   1,     0.4)
-        ArrowCreation("Down_Arrow",  0.4,   0.5,   1,    1.6)
-        ArrowCreation("Right_Arrow", 0.4,   0.5, 1.4,      1)
-        ArrowCreation("Left_Arrow", 0.4,   0.5,  0.6,      1)
-        ArrowCreation("Skull",0.3,0.4,1.75,1.75)
-        ArrowCreation("X", 0.3, 0.4, .125, .125) 
+        for name, (w_mult, h_mult, x_mult, y_mult) in arrow_params.items():
+            ArrowCreation(name, w_mult, h_mult, x_mult, y_mult)
         images_hidden = False
 
     
@@ -172,7 +167,7 @@ def main():
         #Skull
         if abs(event.x - (width / 2 * 1.75)) <= (width / 2 * 0.3) / 2 * 1.5 and \
            abs(event.y - (height / 2 * 1.75)) <= (height / 2 * 0.4) / 2 * 1.5 and images_hidden == False:
-            print("Clicked the Skull")
+            #print("Clicked the Skull")
             StratagemStorage.clear()
             if not ctrl_held:
                 keyboard.press(Key.ctrl_l)
@@ -184,28 +179,28 @@ def main():
         #Up Arrow
         if abs(event.x - (width / 2 * 1)) <= (width / 2 * 0.4) / 2 * 1.5 and \
            abs(event.y - (height / 2 * 0.4)) <= (height / 2 * 0.5) / 2 * 1.5 and images_hidden == False:
-            print("Clicked the Up Arrow")
+            #print("Clicked the Up Arrow")
             StratagemStorage.append("Up")
             keyboard.tap(Key.up)
 
         #Down Arrow
         if abs(event.x - (width / 2 * 1)) <= (width / 2 * 0.4) / 2 * 1.5 and \
            abs(event.y - (height / 2 * 1.6)) <= (height / 2 * 0.5) / 2 * 1.5 and images_hidden == False :
-            print("Clicked the Down Arrow")
+            #print("Clicked the Down Arrow")
             StratagemStorage.append("Down")
             keyboard.tap(Key.down)
 
         #Right Arrow
         if abs(event.x - (width / 2 * 1.4)) <= (width / 2 * 0.4) / 2 * 1.5 and \
            abs(event.y - (height / 2 * 1)) <= (height / 2 * 0.5) / 2 * 1.5 and images_hidden == False:
-            print("Clicked the Right Arrow")
+            #print("Clicked the Right Arrow")
             StratagemStorage.append("Right")
             keyboard.tap(Key.right)
 
         #Left Arrow
         if abs(event.x - (width / 2 * 0.6)) <= (width / 2 * 0.4) / 2 * 1.5 and \
            abs(event.y - (height / 2 * 1)) <= (height / 2 * 0.5) / 2 * 1.5 and images_hidden == False:
-            print("Clicked the Left Arrow")
+            #print("Clicked the Left Arrow")
             StratagemStorage.append("Left")
             keyboard.tap(Key.left)
         #X
@@ -220,7 +215,7 @@ def main():
                 #or after 2 seconds
         for Stratagem, Code in StratagemsDict.items():
             if Code == StratagemStorage:
-                print(f"{Stratagem} Called. Good hunting Helldiver.")
+                #print(f"{Stratagem} Called. Good hunting Helldiver.")
                 #keyboard.release(Key.ctrl_l)
                 CurrentStratagem = Stratagem
                 hide_all_images()
@@ -252,12 +247,9 @@ def main():
             image_items.clear()
             image_refs.clear()
             #To see what these paramaters mean, scroll down to the bottom.
-            ArrowCreation("Up_Arrow",    0.4,   0.5,   1,     0.4)
-            ArrowCreation("Down_Arrow",  0.4,   0.5,   1,    1.6)
-            ArrowCreation("Right_Arrow", 0.4,   0.5, 1.4,      1)
-            ArrowCreation("Left_Arrow", 0.4,   0.5,  0.6,      1)
-            ArrowCreation("Skull",0.3,0.4,1.75,1.75)
-            ArrowCreation("X", 0.3, 0.4, .125, .125)
+            for name, (w_mult, h_mult, x_mult, y_mult) in arrow_params.items():
+                ArrowCreation(name, w_mult, h_mult, x_mult, y_mult)
+
         else: 
             for item in svgToImgArr:
              canvas.delete(item)
@@ -288,8 +280,8 @@ def main():
         #Text
         customSize= tkFont.Font(size = int((height - width) * 1/15) )
         canvas.create_text(width/2, (height/1.4), text=f'{StratagemName} called. Good hunting Helldiver.', fill='white', tag="Text", font=customSize)
-        print(width)  #x
-        print(height) #y
+        #print(width)  #x
+        #print(height) #y
         
         #Garb collection 
         svgToImgArr.append(tk_img)
@@ -322,23 +314,24 @@ def main():
 
         
     #Arrow creation
-    #params are Name, SizeWidthMult, SizeHeightMut, WidthLocationMult,HeightLocationMult
+    #params are Name, SizeWidthMult, SizeHeightMult, WidthLocationMult,HeightLocationMult
     #SizeWidthMult:      higher number makes Arrow wider.
     #SizeHeightmult:     higher number making Arrow taller
     #WidthLocationMult:  higher numbers makes move to the right
     #HeightLocationMult: higher value moves it the arrow down
-            
-    ArrowCreation("Up_Arrow",    0.4,   0.5,   1,     0.4)
 
-    ArrowCreation("Down_Arrow",  0.4,   0.5,   1,    1.6)
-    
-    ArrowCreation("Right_Arrow", 0.4,   0.5, 1.4,      1)
-    
-    ArrowCreation("Left_Arrow", 0.4,   0.5,  0.6,      1)
 
-    ArrowCreation("Skull",0.4,0.5,1.75,1.75)
+    arrow_params = {
+    "Up_Arrow":    (0.4, 0.5, 1.0,   0.4),
+    "Down_Arrow":  (0.4, 0.5, 1.0,   1.6),
+    "Right_Arrow": (0.4, 0.5, 1.4,   1.0),
+    "Left_Arrow":  (0.4, 0.5, 0.6,   1.0),
+    "Skull":       (0.4, 0.5, 1.75,  1.75),
+    "X":           (0.3, 0.4, 0.125, 0.125)
+}
     
-    ArrowCreation("X", 0.3, 0.4, .125, .125)
+    for name, (w_mult, h_mult, x_mult, y_mult) in arrow_params.items():
+            ArrowCreation(name, w_mult, h_mult, x_mult, y_mult)
 
 
 
