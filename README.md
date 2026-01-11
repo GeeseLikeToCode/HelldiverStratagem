@@ -5,11 +5,11 @@ This project aims to recreate the helldiver wrist computer software. You press t
 This is intended to be used on a raspberry pi touchscreen in order to act as a mini keyboard, and relay the arrow presses from the touchscreen and to your personal computer to create a cool helldiver experience.
 
 Important tidbits to know, the arrows all corespond to inputs, meaning if you press the up arrow **the program will act as a keyboard and press the up arrow.** If you do not want this, just comment out all the lines with keyboard.press(<Key>), they will be under *on_left_click* funciton, and make sure to comment out the keyboard.press(Key.ctrl_l) and keyboard.release(key.ctrl_l) as this will press and hold down the control command.
-*The lines which contain keypress comands are: 177, 180, 188, 195, 202 and 209*
+*If you do not want the program to simulate key presses, change arrow_key_press to false.*
 
 If you make a mistake with the stratagem arrow code, the only way to clear it is to press the Skull, which will clear every input, however it may be a good idea to press the skull twice, as one press will hold the control button, and release it. 
 
-The program starts out in a 800x600 resolution window, if you want to full screen it or change the resolution, you can always resize the window, or change the exact resolution on line 304, and if you want to change it to full screen just uncomment line 301. 
+The program starts out in a 800x600 resolution window, if you want to full screen it or change the resolution, you can view the "optional global variable" tab.
 
 # Images
 ![alt text](image.png)
