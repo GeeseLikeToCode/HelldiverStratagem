@@ -1,28 +1,23 @@
 #To Display the windows, and create an output
-import os
 import tkinter as tk
-import tkinter.font as tkFont
-from io import BytesIO
-
+from PIL import ImageTk,Image
 import cairosvg
-from PIL import Image, ImageTk
 from pynput.keyboard import Controller, Key
+from io import BytesIO
+import os
+import tkinter.font as tkFont
+
 
 '''
 installs:
 pip install pillow pynput cairosvg
 '''
 
-#Global Variables - do not change.
-ctrl_held = False
-images_hidden = False 
+#Global Variables
+ctrl_held=False
+images_hidden = False
 keyboard=Controller()
-
-#optional global vairables
-screen_resolution = '800x600' #choose the resolution
-fullsreen_variable = False # set true if you want fullscreen
-arrow_key_press = False # set to true if you want the program to simulate key presses
-
+    
 #Garbage collection
 image_refs = []
 image_items = []
@@ -86,11 +81,9 @@ StratagemsDict = {
 "EAT-700 Expendable Napalm"            :     ["Down", "Down", "Left", "Up", "Left"], 
 "S-11 Speargun"                        :     ["Down", "Right", "Down", "Left", "Up", "Right"], 
 "MS-11 Solo Silo"                      :     ["Down", "Up", "Right", "Down", "Down"], 
-"CQC-9 Defoliation Tool"               :     ["Down","Left","Right","Right","Down"],
-"M-1000 Maxigun"                       :     ["Down", "Left", "Right","Down","Up","Up"],
+    "B╱MD C4 Pack"                     :     ["Down","Right","Up","Up","Right","Up"],
 
 # Supply Backpacks - Tested and working
-
 "SH-32 Shield Generator Pack"          :     ["Down", "Up", "Left", "Right", "Left", "Right"],
 "SH-51 Directional Shield Backpack"    :     ["Down", "Up", "Left", "Right", "Up", "Up"],
 "SH-20 Ballistic Shield Backpack"      :     ["Down", "Left", "Down", "Down", "Up", "Left"],
@@ -102,7 +95,6 @@ StratagemsDict = {
 "AX╱LAS-5 “Guard Dog” Rover"           :     ["Down", "Up", "Left", "Up", "Right", "Right"], 
 "AX╱TX-13 “Guard Dog” Dog Breath"      :     ["Down", "Up", "Left", "Up", "Right", "Up"],
 "AX╱ARC-3 “Guard Dog” K-9"             :     ["Down", "Up", "Left", "Up", "Right", "Left"],
-"AX╱FLAM-75 “Guard Dog” Hot Dog"       :     ["Down","Up","Left","Up","Left","Left"],
 "LIFT-182 Warp Pack"                   :     ["Down", "Left", "Right", "Down", "Left", "Right"], 
 
 # Vehicles - Tested and working
@@ -145,7 +137,9 @@ StratagemsDict = {
 "Eagle Rearm"                          :     ["Up", "Up", "Left", "Up", "Right"], 
 "SEAF Artillery"                       :     ["Right", "Up", "Up", "Down"], 
 "Super Earth Flag"                     :     ["Down", "Up", "Down", "Up"],
-"Hive Breaker Drill"                   :     ["Left", "Up", "Down", "Right", "Down", "Down"]
+"Hive Breaker Drill"                   :     ["Left", "Up", "Down", "Right", "Down", "Down"],
+"Super Destoryer"                      :     ["Up","Up","Down","Down","Left","Right","Left","Right"],
+"Cargo Container"                      :     ["Up","Up","Down","Down","Right","Down"]
 
 
 }
@@ -185,52 +179,46 @@ def main():
     
         #Skull
         if abs(event.x - (width / 2 * 1.75)) <= (width / 2 * 0.3) / 2 * 1.5 and \
-           abs(event.y - (height / 2 * 1.75)) <= (height / 2 * 0.4) / 2 * 1.5 and not images_hidden:
+           abs(event.y - (height / 2 * 1.75)) <= (height / 2 * 0.4) / 2 * 1.5 and images_hidden == False:
             print("Clicked the Skull")
             StratagemStorage.clear()
             if not ctrl_held:
-                if(arrow_key_press):
-                    keyboard.press(Key.ctrl_l)
+                #keyboard.press(Key.ctrl_l)
                 ctrl_held=True
             else:
-                if(arrow_key_press):
-                    keyboard.release(Key.ctrl_l)
+                #keyboard.release(Key.ctrl_l)
                 ctrl_held=False
 
         #Up Arrow
         if abs(event.x - (width / 2 * 1)) <= (width / 2 * 0.4) / 2 * 1.5 and \
-           abs(event.y - (height / 2 * 0.4)) <= (height / 2 * 0.5) / 2 * 1.5 and not images_hidden:
+           abs(event.y - (height / 2 * 0.4)) <= (height / 2 * 0.5) / 2 * 1.5 and images_hidden == False:
             print("Clicked the Up Arrow")
             StratagemStorage.append("Up")
-            if (arrow_key_press):
-                keyboard.tap(Key.up)
+            keyboard.tap(Key.up)
 
         #Down Arrow
         if abs(event.x - (width / 2 * 1)) <= (width / 2 * 0.4) / 2 * 1.5 and \
-           abs(event.y - (height / 2 * 1.6)) <= (height / 2 * 0.5) / 2 * 1.5 and not images_hidden :
+           abs(event.y - (height / 2 * 1.6)) <= (height / 2 * 0.5) / 2 * 1.5 and images_hidden == False :
             print("Clicked the Down Arrow")
             StratagemStorage.append("Down")
-            if (arrow_key_press):
-                keyboard.tap(Key.down)
+            keyboard.tap(Key.down)
 
         #Right Arrow
         if abs(event.x - (width / 2 * 1.4)) <= (width / 2 * 0.4) / 2 * 1.5 and \
-           abs(event.y - (height / 2 * 1)) <= (height / 2 * 0.5) / 2 * 1.5 and not images_hidden:
+           abs(event.y - (height / 2 * 1)) <= (height / 2 * 0.5) / 2 * 1.5 and images_hidden == False:
             print("Clicked the Right Arrow")
             StratagemStorage.append("Right")
-            if (arrow_key_press):
-                keyboard.tap(Key.right)
+            keyboard.tap(Key.right)
 
         #Left Arrow
         if abs(event.x - (width / 2 * 0.6)) <= (width / 2 * 0.4) / 2 * 1.5 and \
-           abs(event.y - (height / 2 * 1)) <= (height / 2 * 0.5) / 2 * 1.5 and not images_hidden:
+           abs(event.y - (height / 2 * 1)) <= (height / 2 * 0.5) / 2 * 1.5 and images_hidden == False:
             print("Clicked the Left Arrow")
             StratagemStorage.append("Left")
-            if (arrow_key_press):
-                keyboard.tap(Key.left)
+            keyboard.tap(Key.left)
         #X
         if abs(event.x - (width / 2 * 0.125)) <= (width / 2 * 0.3) / 2 * 1 and \
-           abs(event.y - (height / 2 * 0.125)) <= (height / 2 * 0.4) / 2 * 1 and not images_hidden: 
+           abs(event.y - (height / 2 * 0.125)) <= (height / 2 * 0.4) / 2 * 1 and images_hidden == False: 
                 exit()
         show_all_images()
 
@@ -266,7 +254,7 @@ def main():
         nonlocal width, height
         width = root.winfo_width()
         height = root.winfo_height()
-        if not images_hidden:
+        if images_hidden == False:
             for item in image_items:
                 canvas.delete(item)
             image_items.clear()
@@ -297,7 +285,7 @@ def main():
 
         #Get memory, then save converted SVG image to memory
         pngBytes = BytesIO()
-        cairosvg.svg2png(url=filename, write_to=pngBytes, output_width= width /2, output_height = height/2)
+        SVGimg = cairosvg.svg2png(url=filename, write_to=pngBytes, output_width= width /2, output_height = height/2)
 
         #Opens the image from memory, and converts it to RGBA (For transparency)
         img = Image.open(pngBytes).convert("RGBA")
@@ -318,11 +306,11 @@ def main():
     root = tk.Tk()
     root.title("Helldiver Stratagem")
 
-    if (fullsreen_variable):
-        root.attributes('-fullscreen', True)
+    #Goes fullscreen (Remove the comment to go full screen)
+    #root.attributes('-fullscreen', True)
 
     #Chooses Resolution
-    root.geometry(screen_resolution)
+    root.geometry('800x600')
         
     #updates with and height of root
     root.update_idletasks()
