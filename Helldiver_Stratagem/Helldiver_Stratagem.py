@@ -138,10 +138,7 @@ StratagemsDict = {
 "SEAF Artillery"                       :     ["Right", "Up", "Up", "Down"], 
 "Super Earth Flag"                     :     ["Down", "Up", "Down", "Up"],
 "Hive Breaker Drill"                   :     ["Left", "Up", "Down", "Right", "Down", "Down"],
-"Super Destoryer"                      :     ["Up","Up","Down","Down","Left","Right","Left","Right"],
-"Cargo Container"                      :     ["Up","Up","Down","Down","Right","Down"]
-
-
+"Super Destoryer"                      :     ["Up","Up","Down","Down","Left","Right","Left","Right"]
 }
 
 def main():
